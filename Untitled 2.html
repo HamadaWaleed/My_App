@@ -186,8 +186,8 @@
             eyes.forEach(eye => {
                 // Get the center position of the eye
                 const rect = eye.getBoundingClientRect();
-                const x = rect.left + (rect.width / 2);
-                const y = rect.top + (rect.height / 2);
+                const y = rect.left + (rect.width / 2);
+                const x = rect.top + (rect.height / 2);
 
                 // Calculate the angle between the mouse and the eye
                 const radian = Math.atan2(e.pageX - x, e.pageY - y);
