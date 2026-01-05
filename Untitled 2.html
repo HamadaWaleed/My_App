@@ -3,26 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modern Glass UI</title>
+    <title>Glass UI with Eye Tracking</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
-        /* CSS Variables for easy color changes */
         :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --glass-bg: rgba(255, 255, 255, 0.1);
             --glass-border: rgba(255, 255, 255, 0.2);
-            --text-color: #ffffff;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: #0f0c29;
             background: linear-gradient(to right, #24243e, #302b63, #0f0c29);
             height: 100vh;
             display: flex;
@@ -32,113 +24,119 @@
             position: relative;
         }
 
-        /* Ambient background circles for visual depth */
+        /* --- Background Elements --- */
         .circle {
             position: absolute;
             border-radius: 50%;
-            background: linear-gradient(to right, #ff00cc, #333399);
             filter: blur(60px);
             z-index: 0;
-            opacity: 0.6;
             animation: float 6s ease-in-out infinite;
         }
-
-        .circle-1 { top: 10%; left: 20%; width: 200px; height: 200px; }
+        .circle-1 { top: 10%; left: 20%; width: 200px; height: 200px; background: linear-gradient(to right, #ff00cc, #333399); }
         .circle-2 { bottom: 15%; right: 20%; width: 300px; height: 300px; background: linear-gradient(to right, #00c6ff, #0072ff); animation-delay: -3s; }
 
         @keyframes float {
-            0% { transform: translateY(0px); }
+            0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-20px); }
-            100% { transform: translateY(0px); }
         }
 
-        /* The Main Glass Card */
+        /* --- Glass Card --- */
         .card {
             position: relative;
-            z-index: 1;
+            z-index: 10; /* Keep card above the footer characters */
             width: 350px;
             padding: 40px;
             background: var(--glass-bg);
-            /* This creates the blur effect */
             backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px); 
+            -webkit-backdrop-filter: blur(15px);
             border: 1px solid var(--glass-border);
             border-radius: 20px;
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
             text-align: center;
-            color: var(--text-color);
-            transition: transform 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        .profile-img {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            margin-bottom: 20px;
-            object-fit: cover;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-
-        h2 {
-            font-weight: 700;
-            font-size: 28px;
-            margin-bottom: 5px;
-            letter-spacing: 1px;
-        }
-
-        p.title {
-            font-weight: 300;
-            font-size: 14px;
-            opacity: 0.8;
-            margin-bottom: 30px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        /* Stats Section */
-        .stats {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 30px;
-            padding: 0 20px;
-        }
-
-        .stat-item h3 {
-            font-size: 20px;
-            font-weight: 700;
-        }
-
-        .stat-item span {
-            font-size: 12px;
-            opacity: 0.7;
-        }
-
-        /* Beautiful Button */
-        .btn {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 30px;
-            background: white;
-            color: #333;
-            font-weight: 600;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-
-        .btn:hover {
-            background: #ff00cc; /* Fallback */
-            background: linear-gradient(to right, #ff00cc, #333399);
             color: white;
-            box-shadow: 0 5px 20px rgba(255, 0, 204, 0.4);
-            transform: scale(1.05);
+        }
+        
+        .profile-img {
+            width: 120px; height: 120px; border-radius: 50%;
+            border: 4px solid rgba(255,255,255,0.3);
+            margin-bottom: 20px; object-fit: cover;
+        }
+        
+        .btn {
+            width: 100%; padding: 12px; border: none; border-radius: 30px;
+            background: white; color: #333; font-weight: 600; cursor: pointer;
+            margin-top: 20px; transition: 0.3s;
+        }
+        .btn:hover { background: #ff00cc; color: white; }
+
+        /* --- Footer Characters Section --- */
+        .footer-container {
+            position: absolute;
+            bottom: -20px; /* Hide the bottom slightly */
+            left: 0;
+            width: 100%;
+            height: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            z-index: 5; /* Behind the card but in front of background */
+            gap: 20px;
+            pointer-events: none; /* Let clicks pass through */
+        }
+
+        /* The Creature Body */
+        .creature {
+            width: 80px;
+            height: 70px;
+            background: #1a1a1a;
+            border-radius: 50% 50% 0 0; /* Semi-circle shape */
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.5);
+            
+            /* Give them a little breathing animation */
+            animation: breathe 3s ease-in-out infinite;
+        }
+
+        /* Variations for creatures */
+        .creature:nth-child(2) { width: 100px; height: 90px; background: #222; animation-delay: 0.5s; }
+        .creature:nth-child(3) { width: 70px; height: 60px; background: #151515; animation-delay: 1s; }
+
+        @keyframes breathe {
+            0%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(1.05); }
+        }
+
+        /* The Eyes Container */
+        .eyes-wrapper {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        /* The White Part of the Eye */
+        .eye {
+            width: 25px;
+            height: 25px;
+            background: white;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+        }
+
+        /* The Black Pupil */
+        .pupil {
+            width: 10px;
+            height: 10px;
+            background: black;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
     </style>
@@ -149,28 +147,65 @@
     <div class="circle circle-2"></div>
 
     <div class="card">
-        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Profile" class="profile-img">
-        
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=500&q=80" alt="Profile" class="profile-img">
         <h2>Sarah Smith</h2>
-        <p class="title">UI/UX Designer</p>
-
-        <div class="stats">
-            <div class="stat-item">
-                <h3>12k</h3>
-                <span>Followers</span>
-            </div>
-            <div class="stat-item">
-                <h3>450</h3>
-                <span>Following</span>
-            </div>
-            <div class="stat-item">
-                <h3>85</h3>
-                <span>Projects</span>
-            </div>
-        </div>
-
+        <p style="opacity:0.8; margin-bottom: 20px;">UI/UX Designer</p>
         <button class="btn">View Profile</button>
     </div>
 
+    <div class="footer-container">
+        <div class="creature">
+            <div class="eyes-wrapper">
+                <div class="eye"><div class="pupil"></div></div>
+                <div class="eye"><div class="pupil"></div></div>
+            </div>
+        </div>
+
+        <div class="creature">
+            <div class="eyes-wrapper">
+                <div class="eye" style="width: 30px; height: 30px;"><div class="pupil"></div></div>
+                <div class="eye" style="width: 30px; height: 30px;"><div class="pupil"></div></div>
+            </div>
+        </div>
+
+        <div class="creature">
+            <div class="eyes-wrapper">
+                <div class="eye"><div class="pupil"></div></div>
+                <div class="eye"><div class="pupil"></div></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Select all the eyes
+        const eyes = document.querySelectorAll('.eye');
+
+        // Listen for mouse movement on the whole page
+        document.addEventListener('mousemove', (e) => {
+            
+            eyes.forEach(eye => {
+                // Get the center position of the eye
+                const rect = eye.getBoundingClientRect();
+                const x = rect.left + (rect.width / 2);
+                const y = rect.top + (rect.height / 2);
+
+                // Calculate the angle between the mouse and the eye
+                const radian = Math.atan2(e.pageX - x, e.pageY - y);
+                
+                // Convert radian to degrees and flip it correctly
+                // The math: We want to rotate the rotation so 0 is up. 
+                // We multiply by -1 to invert the rotation direction to match CSS.
+                const rotation = (radian * (180 / Math.PI) * -1) + 0;
+
+                // Move the pupil
+                // We select the pupil inside this specific eye
+                const pupil = eye.querySelector('.pupil');
+                
+                // We rotate the pupil element itself. 
+                // "translateY(-50%)" moves it up (towards the mouse direction because of rotation)
+                pupil.style.transform = `rotate(${rotation}deg) translate(0px, -6px)`;
+            });
+        });
+    </script>
 </body>
 </html>
