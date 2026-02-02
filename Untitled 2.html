@@ -1,337 +1,755 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>موقع شكاكي فول</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;500;800&display=swap" rel="stylesheet">
-    <style>
-        /* --- الأساسيات --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; /* إخفاء الماوس العادي */ }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Website That Lies — تجربة التحيّزات</title>
+  <style>
+    :root{
+      --bg:#0b1020;
+      --panel:#111a33;
+      --panel2:#0f1730;
+      --text:#e8ecff;
+      --muted:#aab3d6;
+      --accent:#6ee7ff;
+      --good:#5cffb0;
+      --warn:#ffd36e;
+      --bad:#ff6e8a;
+      --border: rgba(255,255,255,.12);
+      --shadow: 0 18px 60px rgba(0,0,0,.45);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      background: radial-gradient(1200px 800px at 20% 10%, rgba(110,231,255,.18), transparent 60%),
+                  radial-gradient(1000px 700px at 85% 20%, rgba(92,255,176,.14), transparent 55%),
+                  radial-gradient(900px 700px at 60% 90%, rgba(255,110,138,.12), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+    }
+    .app{width:min(980px, 100%);}
+    .topbar{
+      display:flex; gap:12px; align-items:center; justify-content:space-between;
+      margin-bottom:14px;
+    }
+    .brand{
+      display:flex; gap:10px; align-items:center;
+      font-weight:700; letter-spacing:.2px;
+    }
+    .dot{
+      width:12px; height:12px; border-radius:50%;
+      background: linear-gradient(135deg, var(--accent), var(--good));
+      box-shadow: 0 0 20px rgba(110,231,255,.45);
+    }
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      padding:8px 12px; border-radius:999px;
+      color:var(--muted); font-size:13px;
+    }
+    .pill b{color:var(--text)}
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      border:1px solid var(--border);
+      border-radius:18px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .content{padding:22px;}
+    h1{margin:0 0 8px 0; font-size:26px}
+    p{margin:0; color:var(--muted); line-height:1.7}
+    .grid{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:14px;
+    }
+    @media (max-width: 860px){
+      .grid{grid-template-columns:1fr}
+    }
+    .panel{
+      background: rgba(17,26,51,.75);
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:16px;
+    }
+    .metrics{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:10px;
+      margin-top:10px;
+    }
+    @media (max-width: 520px){
+      .metrics{grid-template-columns:1fr}
+    }
+    .metric{
+      background: rgba(15,23,48,.75);
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:12px;
+      min-height:84px;
+    }
+    .metric .k{font-size:12px; color:var(--muted)}
+    .metric .v{font-size:22px; font-weight:800; margin-top:6px}
+    .metric .tag{margin-top:6px; font-size:12px; color:var(--muted)}
+    .badge{
+      display:inline-flex; align-items:center; gap:8px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      padding:8px 10px;
+      border-radius:999px;
+      font-size:13px;
+      color:var(--muted);
+    }
+    .badge .mark{
+      width:9px; height:9px; border-radius:50%;
+      background: var(--good);
+      box-shadow: 0 0 16px rgba(92,255,176,.35);
+    }
+    .choices{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-top:14px;
+    }
+    .choice{
+      text-align:right;
+      cursor:pointer;
+      border-radius:14px;
+      padding:14px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+      position:relative;
+      overflow:hidden;
+    }
+    .choice:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,.05);
+      border-color: rgba(110,231,255,.25);
+    }
+    .choice h3{margin:0 0 6px 0; font-size:16px}
+    .choice small{color:var(--muted); line-height:1.55; display:block}
+    .choice .ribbon{
+      position:absolute;
+      top:10px; left:-40px;
+      transform: rotate(-14deg);
+      background: linear-gradient(135deg, rgba(110,231,255,.9), rgba(92,255,176,.9));
+      color:#061023;
+      font-weight:800;
+      padding:6px 48px;
+      font-size:12px;
+      box-shadow: 0 12px 30px rgba(0,0,0,.25);
+    }
 
-        body {
-            font-family: 'Tajawal', sans-serif;
-            background-color: #000;
-            color: #fff;
-            overflow-x: hidden;
-        }
+    .sideTitle{font-weight:800; margin:0 0 8px 0}
+    .hint{font-size:13px; color:var(--muted); line-height:1.6}
+    .btnRow{display:flex; gap:10px; margin-top:14px; flex-wrap:wrap}
+    .btn{
+      cursor:pointer;
+      border-radius:12px;
+      padding:10px 12px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      color:var(--text);
+      font-weight:700;
+      transition: transform .12s ease, background .12s ease;
+      user-select:none;
+    }
+    .btn:hover{transform: translateY(-1px); background: rgba(255,255,255,.06)}
+    .btn.primary{
+      border-color: rgba(110,231,255,.35);
+      background: rgba(110,231,255,.10);
+    }
+    .btn.danger{
+      border-color: rgba(255,110,138,.35);
+      background: rgba(255,110,138,.10);
+    }
 
-        /* --- الكانفس (الخلفية التفاعلية) --- */
-        #canvas1 {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: -1;
-            background: radial-gradient(#1a1a1a, #000);
-        }
+    .footer{
+      padding:14px 22px;
+      border-top:1px solid var(--border);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      color:var(--muted);
+      font-size:13px;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .kbd{
+      border:1px solid var(--border);
+      border-bottom-color: rgba(255,255,255,.22);
+      background: rgba(0,0,0,.18);
+      padding:2px 8px;
+      border-radius:8px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      color:var(--text);
+      font-size:12px;
+    }
 
-        /* --- الماوس المخصص --- */
-        .cursor {
-            width: 20px; height: 20px;
-            border: 2px solid #00ff88;
-            border-radius: 50%;
-            position: absolute;
-            pointer-events: none;
-            z-index: 9999;
-            transform: translate(-50%, -50%);
-            transition: width 0.2s, height 0.2s;
-            box-shadow: 0 0 10px #00ff88;
-        }
-        .cursor.grow {
-            width: 50px; height: 50px;
-            background: rgba(0, 255, 136, 0.1);
-            border-color: transparent;
-        }
-
-        /* --- المحتوى الرئيسي --- */
-        .container {
-            position: relative;
-            z-index: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            text-align: center;
-            padding: 20px;
-        }
-
-        /* --- النصوص --- */
-        h1 {
-            font-size: 4rem;
-            margin-bottom: 10px;
-            background: linear-gradient(to right, #00ff88, #00ccff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
-        }
-
-        .typing-text {
-            font-size: 1.5rem;
-            color: #ddd;
-            height: 30px;
-            margin-bottom: 50px;
-        }
-
-        /* --- الكارتات ثلاثية الأبعاد --- */
-        .cards-grid {
-            display: flex;
-            gap: 30px;
-            perspective: 1000px; /* هذا السحر مال 3D */
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .card {
-            width: 300px;
-            padding: 40px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            transition: transform 0.1s; /* حركة سريعة جداً للماوس */
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        .card h3 {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-            color: #00ccff;
-        }
-
-        .card p {
-            font-size: 1rem;
-            line-height: 1.6;
-            color: #aaa;
-        }
-
-        /* زر بسيط */
-        .btn {
-            margin-top: 50px;
-            padding: 15px 40px;
-            background: transparent;
-            border: 2px solid #00ff88;
-            color: #00ff88;
-            font-size: 1.2rem;
-            font-weight: bold;
-            border-radius: 50px;
-            transition: 0.3s;
-            position: relative;
-            overflow: hidden;
-            text-decoration: none;
-        }
-
-        .btn:hover {
-            background: #00ff88;
-            color: #000;
-            box-shadow: 0 0 30px #00ff88;
-        }
-
-    </style>
+    /* Modal */
+    .overlay{
+      position:fixed; inset:0;
+      background: rgba(0,0,0,.55);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+      z-index:999;
+    }
+    .overlay.show{display:flex}
+    .modal{
+      width:min(920px, 100%);
+      border-radius:18px;
+      border:1px solid var(--border);
+      background: linear-gradient(180deg, rgba(17,26,51,.92), rgba(15,23,48,.92));
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .modalHead{
+      padding:18px 18px 12px 18px;
+      border-bottom:1px solid var(--border);
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:12px;
+    }
+    .modalHead h2{margin:0; font-size:18px}
+    .close{
+      cursor:pointer;
+      padding:8px 10px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      color:var(--text);
+      font-weight:800;
+    }
+    .modalBody{padding:18px}
+    .explainGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+      margin-top:12px;
+    }
+    @media (max-width: 800px){
+      .explainGrid{grid-template-columns:1fr}
+    }
+    .explain{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      border-radius:16px;
+      padding:14px;
+    }
+    .explain h4{margin:0 0 8px 0}
+    .explain p{margin:0; color:var(--muted)}
+    .label{
+      display:inline-flex; align-items:center; gap:8px;
+      font-size:12px; color:var(--muted);
+      border:1px solid var(--border);
+      padding:6px 10px;
+      border-radius:999px;
+      background: rgba(255,255,255,.03);
+      margin-top:10px;
+    }
+    .pulse{
+      display:inline-block;
+      width:8px; height:8px; border-radius:50%;
+      background: var(--warn);
+      box-shadow: 0 0 0 rgba(255,211,110,.55);
+      animation: pulse 1.3s infinite;
+    }
+    @keyframes pulse{
+      0%{box-shadow:0 0 0 0 rgba(255,211,110,.35)}
+      70%{box-shadow:0 0 0 12px rgba(255,211,110,0)}
+      100%{box-shadow:0 0 0 0 rgba(255,211,110,0)}
+    }
+    .miniNote{
+      margin-top:12px;
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.7;
+    }
+    .hr{height:1px; background: var(--border); margin:14px 0}
+    .mono{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size:12px;
+      color: rgba(232,236,255,.9);
+      background: rgba(0,0,0,.22);
+      border:1px solid var(--border);
+      padding:10px;
+      border-radius:14px;
+      overflow:auto;
+    }
+  </style>
 </head>
 <body>
-
-    <canvas id="canvas1"></canvas>
-    
-    <div class="cursor"></div>
-
-    <div class="container">
-        <h1>مرحبا بك في عالم محمد التقني </h1>
-        <p class="typing-text"><span id="typewriter"></span>|</p>
-
-        <div class="cards-grid">
-            <div class="card tilt-card">
-                <h3>سرعة خيالية</h3>
-                <p>الموقع مصمم ليكون سريع جداً وتفاعلي مع كل حركة تسويها.</p>
-            </div>
-            <div class="card tilt-card">
-                <h3>تصميم عصري</h3>
-                <p>نستخدم أحدث تقنيات الـ CSS والـ Glassmorphism.</p>
-            </div>
-            <div class="card tilt-card">
-                <h3>تفاعلية فول</h3>
-                <p>حرك الماوس وشوف شلون العناصر تتجاوب وياك بذكاء.</p>
-            </div>
-        </div>
-
-        <a href="#" class="btn">اكتشف المزيد</a>
+  <div class="app">
+    <div class="topbar">
+      <div class="brand">
+        <span class="dot"></span>
+        <span>تجربة تحيّزات — Website That Lies</span>
+      </div>
+      <div class="pill"><span class="pulse"></span> وضع تجريبي: <b>واجهة “توجّهك”</b></div>
     </div>
 
-    <script>
-        // --- 1. كود الخلفية (النقاط المتصلة) ---
-        const canvas = document.getElementById('canvas1');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+    <div class="card">
+      <div class="content">
+        <h1 id="headline">اختبار سريع: أي خيار “أفضل”؟</h1>
+        <p id="sub">
+          راح أعرض عليك خيارين، اختَر اللي تشوفه مناسب.  
+          ملاحظة: النتائج تعتمد على “تحليل مستخدمين سابقين” ومؤشرات موثوقية.
+        </p>
 
-        let particlesArray;
+        <div class="grid">
+          <div class="panel">
+            <div class="badge"><span class="mark"></span> موثّق • مراجعات داخلية • بيانات مستخدمين</div>
 
-        // الماوس للتفاعل مع الخلفية
-        let mouse = {
-            x: null,
-            y: null,
-            radius: (canvas.height/80) * (canvas.width/80)
-        }
+            <div class="metrics" id="metrics">
+              <!-- filled by JS -->
+            </div>
 
-        window.addEventListener('mousemove', (event) => {
-                mouse.x = event.x;
-                mouse.y = event.y;
-        });
+            <div class="choices" id="choices">
+              <!-- filled by JS -->
+            </div>
 
-        // كلاس النقطة
-        class Particle {
-            constructor(x, y, directionX, directionY, size, color) {
-                this.x = x;
-                this.y = y;
-                this.directionX = directionX;
-                this.directionY = directionY;
-                this.size = size;
-                this.color = color;
-            }
-            // رسم النقطة
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
-                ctx.fillStyle = '#00ff88';
-                ctx.fill();
-            }
-            // تحديث مكان النقطة
-            update() {
-                if (this.x > canvas.width || this.x < 0) this.directionX = -this.directionX;
-                if (this.y > canvas.height || this.y < 0) this.directionY = -this.directionY;
+            <div class="btnRow">
+              <div class="btn primary" id="btnNew">تجربة جديدة</div>
+              <div class="btn" id="btnToggle">تبديل مستوى الخداع: متوسط</div>
+              <div class="btn danger" id="btnReset">تصفير كلشي</div>
+            </div>
 
-                // التفاعل مع الماوس (ينهزمون منه)
-                let dx = mouse.x - this.x;
-                let dy = mouse.y - this.y;
-                let distance = Math.sqrt(dx*dx + dy*dy);
-                if (distance < mouse.radius + this.size){
-                    if (mouse.x < this.x && this.x < canvas.width - 10) this.x += 10;
-                    if (mouse.x > this.x && this.x > 10) this.x -= 10;
-                    if (mouse.y < this.y && this.y < canvas.height - 10) this.y += 10;
-                    if (mouse.y > this.y && this.y > 10) this.y -= 10;
-                }
+            <div class="miniNote">
+              تلميح: لا تدقق هواي… خليك عفوي. (هذا جزء من التجربة)
+            </div>
+          </div>
 
-                this.x += this.directionX;
-                this.y += this.directionY;
-                this.draw();
-            }
-        }
+          <div class="panel">
+            <div class="sideTitle">شنو هدف الموقع؟</div>
+            <div class="hint">
+              هذا الموقع “يضلّلك” بشكل أخلاقي حتى يبيّن لك شلون:
+              <br/>• الكلمات + الألوان + الأرقام
+              <br/>• وترتيب الخيارات
+              <br/>تگدر تغيّر قرارك بدون ما تحس.
+            </div>
 
-        // إنشاء النقاط
-        function init() {
-            particlesArray = [];
-            let numberOfParticles = (canvas.height * canvas.width) / 9000;
-            for (let i = 0; i < numberOfParticles; i++) {
-                let size = (Math.random() * 5) + 1;
-                let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
-                let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
-                let directionX = (Math.random() * 5) - 2.5;
-                let directionY = (Math.random() * 5) - 2.5;
-                let color = '#00ff88';
+            <div class="hr"></div>
 
-                particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
-            }
-        }
+            <div class="sideTitle">شنو راح يصير بعد ما تختار؟</div>
+            <div class="hint">
+              راح يظهر تفسير واضح:
+              <br/>• شنو التحيّز النفسي اللي اشتغل عندك
+              <br/>• شنو “الخدعة” اللي استخدمتها الواجهة
+              <br/>• شلون تتجنبها مستقبلاً
+            </div>
 
-        // لوب الحركة (Animation Loop)
-        function animate() {
-            requestAnimationFrame(animate);
-            ctx.clearRect(0,0,innerWidth, innerHeight);
+            <div class="hr"></div>
 
-            for (let i = 0; i < particlesArray.length; i++) {
-                particlesArray[i].update();
-            }
-            connect();
-        }
+            <div class="hint">
+              اختصارات:
+              <span class="kbd">N</span> تجربة جديدة
+              <span class="kbd">Esc</span> غلق التفسير
+            </div>
+          </div>
+        </div>
+      </div>
 
-        // رسم الخطوط بين النقاط القريبة
-        function connect() {
-            let opacityValue = 1;
-            for (let a = 0; a < particlesArray.length; a++) {
-                for (let b = a; b < particlesArray.length; b++) {
-                    let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x))
-                    + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
-                    if (distance < (canvas.width/7) * (canvas.height/7)) {
-                        opacityValue = 1 - (distance/20000);
-                        ctx.strokeStyle = 'rgba(0, 255, 136,' + opacityValue + ')';
-                        ctx.lineWidth = 1;
-                        ctx.beginPath();
-                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
-                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
-                        ctx.stroke();
-                    }
-                }
-            }
-        }
+      <div class="footer">
+        <div>ملاحظة: هذا Demo تعليمي. لا يستخدم بيانات حقيقية.</div>
+        <div>Version: <span class="kbd">1.0</span></div>
+      </div>
+    </div>
+  </div>
 
-        window.addEventListener('resize', function(){
-            canvas.width = innerWidth;
-            canvas.height = innerHeight;
-            init();
-        });
+  <!-- Modal -->
+  <div class="overlay" id="overlay" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-label="تفسير التحيّز">
+      <div class="modalHead">
+        <div>
+          <h2 id="mTitle">تحليل اختيارك</h2>
+          <div class="label"><span class="pulse"></span> كشف الخدعة + تفسير نفسي</div>
+        </div>
+        <button class="close" id="btnClose">إغلاق</button>
+      </div>
+      <div class="modalBody">
+        <p id="mIntro" style="margin:0;color:var(--muted);line-height:1.7"></p>
 
-        init();
-        animate();
+        <div class="explainGrid" id="explainGrid">
+          <!-- filled by JS -->
+        </div>
 
-        // --- 2. كود الماوس المخصص ---
-        const cursor = document.querySelector('.cursor');
-        document.addEventListener('mousemove', e => {
-            cursor.setAttribute("style", "top: "+(e.pageY)+"px; left: "+(e.pageX)+"px;")
-        });
+        <div class="hr"></div>
 
-        // تكبير الماوس عند المرور على الروابط
-        document.querySelectorAll('a, .card').forEach(item => {
-            item.addEventListener('mouseover', () => cursor.classList.add('grow'));
-            item.addEventListener('mouseleave', () => cursor.classList.remove('grow'));
-        });
+        <div class="sideTitle">شنو اللي “كذبناه”؟</div>
+        <div class="mono" id="mTech"></div>
 
-        // --- 3. كود الكارتات الـ 3D (Tilt Effect) ---
-        const cards = document.querySelectorAll('.tilt-card');
+        <div class="miniNote">
+          إذا تحب نخلي التجربة أقوى: نضيف مرحلة ثانية، ونخلي الموقع “يذكّرك” باختياراتك، ويكشف تحيزات إضافية.
+        </div>
+      </div>
+    </div>
+  </div>
 
-        cards.forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left; // مكان الماوس داخل الكارت
-                const y = e.clientY - rect.top;
+  <script>
+    // ----------------------------
+    // Ethical "Website That Lies" Demo
+    // Web-only. No backend.
+    // ----------------------------
 
-                // حساب زاوية الميلان
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                
-                const rotateX = ((y - centerY) / centerY) * -20; // -20 درجة
-                const rotateY = ((x - centerX) / centerX) * 20;
+    const $ = (s) => document.querySelector(s);
 
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
-            });
+    const overlay = $("#overlay");
+    const choicesEl = $("#choices");
+    const metricsEl = $("#metrics");
+    const explainGridEl = $("#explainGrid");
 
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = `perspective(1000px) rotateX(0) rotateY(0) scale(1)`;
-            });
-        });
+    const btnNew = $("#btnNew");
+    const btnToggle = $("#btnToggle");
+    const btnReset = $("#btnReset");
+    const btnClose = $("#btnClose");
 
-        // --- 4. كود الكتابة التلقائية ---
-        const textElement = document.getElementById('typewriter');
-        const texts = ["نصمم المستقبل.", "إبداع بلا حدود.", "تكنولوجيا مبتكره."];
-        let count = 0;
-        let index = 0;
-        let currentText = "";
-        let letter = "";
+    // 3 levels of manipulation intensity
+    const levels = [
+      { key:"low",   label:"منخفض",  nudge:0.25 },
+      { key:"mid",   label:"متوسط",  nudge:0.55 },
+      { key:"high",  label:"عالي",   nudge:0.85 }
+    ];
+    let levelIndex = 1; // default: mid
 
-        (function type() {
-            if (count === texts.length) { count = 0; }
-            currentText = texts[count];
-            letter = currentText.slice(0, ++index);
+    // Demo scenarios (you can add more)
+    const scenarios = [
+      {
+        id: "plan",
+        title: "أي خطة اشتراك تناسبك؟",
+        subtitle: "اختَر بسرعة بدون تفكير طويل.",
+        options: [
+          {
+            id:"A",
+            name:"الخطة A",
+            desc:"مزايا متوازنة، خيار منطقي للغالبية.",
+            baseValue: 0.50,
+          },
+          {
+            id:"B",
+            name:"الخطة B",
+            desc:"مزايا مشابهة تقريباً، بس بصياغة أقل إقناعاً.",
+            baseValue: 0.50,
+          }
+        ],
+        biases: [
+          {
+            key:"social_proof",
+            title:"Social Proof Bias (انحياز رأي الأغلبية)",
+            expl:"لما شفت إن “الأغلبية اختارت” خيار معيّن، دماغك اعتبره آمن وصحيح حتى لو ما عندك دليل فعلي."
+          },
+          {
+            key:"authority",
+            title:"Authority Bias (انحياز السلطة)",
+            expl:"استخدمنا لغة “موثّق/بيانات/مراجعات” حتى نخلق إحساس بالثقة، رغم إن الدليل مو حقيقي."
+          },
+          {
+            key:"framing",
+            title:"Framing Effect (تأثير الصياغة)",
+            expl:"نفس الفكرة لو تنكتب بطريقة مختلفة، قرارك يختلف. الصياغة تسحبك بدون ما تحس."
+          }
+        ]
+      },
+      {
+        id:"job",
+        title: "اختَر مرشّح للتوظيف (Demo)",
+        subtitle: "القرار هنا مو عن الشخص… بل عن تأثير العرض عليك.",
+        options: [
+          {
+            id:"A",
+            name:"مرشّح A",
+            desc:"سيرة مرتبة جداً + كلمات قوية.",
+            baseValue: 0.50,
+          },
+          {
+            id:"B",
+            name:"مرشّح B",
+            desc:"نفس المستوى تقريباً، لكن عرض أقل لمعان.",
+            baseValue: 0.50,
+          }
+        ],
+        biases: [
+          {
+            key:"halo",
+            title:"Halo Effect (تأثير الهالة)",
+            expl:"المظهر المرتب والكلمات القوية خلّتك تعطي تقييم أعلى للشخص حتى لو المعلومات متقاربة."
+          },
+          {
+            key:"default",
+            title:"Default Bias (انحياز الخيار الافتراضي)",
+            expl:"لما خيار يُقدّم كأنه “الموصى به”، الناس تميل تختاره لأنه أقل مقاومة ذهنيّة."
+          },
+          {
+            key:"scarcity",
+            title:"Scarcity Bias (انحياز الندرة)",
+            expl:"لما نوحي إن الفرصة محدودة، قرارك يصير أسرع وأكثر عاطفيّة."
+          }
+        ]
+      },
+      {
+        id:"news",
+        title: "أي عنوان خبر تصدّگ أكثر؟",
+        subtitle: "جرّب تشوف شنو اللي يخليك تصدّگ قبل المحتوى.",
+        options: [
+          {
+            id:"A",
+            name:"عنوان A",
+            desc:"يستخدم أرقام ونبرة ثقة.",
+            baseValue: 0.50,
+          },
+          {
+            id:"B",
+            name:"عنوان B",
+            desc:"نفس المعنى تقريباً، بس أقل “إبهار”.",
+            baseValue: 0.50,
+          }
+        ],
+        biases: [
+          {
+            key:"certainty",
+            title:"Certainty Illusion (وهم اليقين)",
+            expl:"لما العنوان يكون جازم ويستخدم أرقام، دماغك يتعامل وياه كأنه حقيقة."
+          },
+          {
+            key:"authority",
+            title:"Authority Bias (انحياز السلطة)",
+            expl:"شارات مثل “موثّق/مراجعات” حتى لو فارغة، ترفع الثقة لا إرادياً."
+          },
+          {
+            key:"framing",
+            title:"Framing Effect (تأثير الصياغة)",
+            expl:"نفس الخبر بصياغة مختلفة يعطي انطباع مختلف جداً."
+          }
+        ]
+      }
+    ];
 
-            textElement.textContent = letter;
-            if (letter.length === currentText.length) {
-                count++;
-                index = 0;
-                setTimeout(type, 2000); // انتظر ثانيتين قبل الكلمة التالية
-            } else {
-                setTimeout(type, 100);
-            }
-        }());
+    // session state
+    let current = null;
+    let lieLog = []; // track manipulations we applied
 
-    </script>
+    function randInt(min, max){
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function pickScenario(){
+      return scenarios[randInt(0, scenarios.length - 1)];
+    }
+
+    function setTexts(title, subtitle){
+      $("#headline").textContent = title;
+      $("#sub").textContent = subtitle;
+    }
+
+    function levelInfo(){
+      return levels[levelIndex];
+    }
+
+    function buildFakeMetrics(nudge){
+      // We "lie" by generating persuasive metrics that push towards option A.
+      // The nudge controls how strong the push is.
+      const pctA = Math.round(50 + (nudge * randInt(10, 28))); // 60..78 typically
+      const pctB = 100 - pctA;
+
+      const trust = Math.round(60 + (nudge * randInt(20, 35))); // 80..95
+      const speed = Math.round(120 - (nudge * randInt(20, 55))); // 65..100ms
+
+      return [
+        { k:"نسبة اختيار المستخدمين", v:`${pctA}%`, tag:`اختاروا الخيار A (و ${pctB}% B)` , kind:"social" },
+        { k:"مؤشر الموثوقية", v:`${trust}/100`, tag:"(مُصطنع للتأثير)" , kind:"authority" },
+        { k:"زمن اتخاذ القرار", v:`${speed}ms`, tag:"كلما أسرعنا… أكثر قابلية للتوجيه" , kind:"framing" }
+      ];
+    }
+
+    function renderMetrics(metrics){
+      metricsEl.innerHTML = "";
+      metrics.forEach(m => {
+        const el = document.createElement("div");
+        el.className = "metric";
+        el.innerHTML = `
+          <div class="k">${m.k}</div>
+          <div class="v">${m.v}</div>
+          <div class="tag">${m.tag}</div>
+        `;
+        metricsEl.appendChild(el);
+      });
+    }
+
+    function renderChoices(opts, nudge){
+      choicesEl.innerHTML = "";
+      lieLog = [];
+
+      // Manipulation tactics:
+      // - Give option A a "Recommended" ribbon depending on nudge
+      // - Make A first always (primacy)
+      // - Add microcopy to A and reduce for B
+      const makeRibbon = (nudge > 0.35);
+      const strongerMicrocopy = (nudge > 0.55);
+
+      // Always put A first (Primacy effect)
+      const ordered = [...opts].sort((a,b)=> (a.id==="A" ? -1 : 1));
+
+      ordered.forEach(opt => {
+        const c = document.createElement("div");
+        c.className = "choice";
+        c.dataset.id = opt.id;
+
+        const isA = opt.id === "A";
+
+        const micro = isA
+          ? (strongerMicrocopy ? "موصى بها • أفضل توازن • أقل مخاطرة" : "خيار متوازن ومريح")
+          : (strongerMicrocopy ? "بديل أقل شيوعاً" : "بديل آخر");
+
+        c.innerHTML = `
+          ${isA && makeRibbon ? `<div class="ribbon">Recommended</div>` : ``}
+          <h3>${opt.name}</h3>
+          <small>${opt.desc}</small>
+          <small style="margin-top:8px;opacity:${isA ? 1 : 0.88}">
+            <b style="color:var(--text)">${micro}</b>
+          </small>
+        `;
+
+        c.addEventListener("click", () => onChoose(opt.id, { makeRibbon, strongerMicrocopy, nudge }));
+        choicesEl.appendChild(c);
+      });
+
+      // Log "lies"
+      if (makeRibbon) lieLog.push("أضفنا شارة Recommended على الخيار A (Authority/Default).");
+      lieLog.push("رتّبنا الخيار A أولاً (Primacy Effect).");
+      if (strongerMicrocopy) lieLog.push("كتبنا Microcopy أقوى للخيار A وأضعف للخيار B (Framing).");
+      lieLog.push("عرضنا أرقام “نسبة اختيار المستخدمين” ومؤشر موثوقية بشكل مقصود (Social proof/Authority).");
+    }
+
+    function openModal(){
+      overlay.classList.add("show");
+      overlay.setAttribute("aria-hidden","false");
+    }
+
+    function closeModal(){
+      overlay.classList.remove("show");
+      overlay.setAttribute("aria-hidden","true");
+    }
+
+    function onChoose(choiceId, meta){
+      // Determine "likely biases" based on manipulation level and what the user chose.
+      const lvl = levelInfo();
+      const choseA = (choiceId === "A");
+
+      // Compose explanation
+      const title = choseA
+        ? "اخترت الخيار A — وهاي مو صدفة 😉"
+        : "اخترت الخيار B — هذا يدل إنك قاومت التوجيه 👀";
+
+      $("#mTitle").textContent = title;
+
+      const intro = choseA
+        ? `أغلب الناس تميل للخيار A هنا لأن الواجهة دفعتها بشكل ناعم. هذا مو “غباء”، هذا طبيعة دماغنا.`
+        : `مو كثيرين يختارون B بهالسيناريو، لأن الواجهة تحاول تدفعك نحو A. اختيارك يعني انتبهت/تحفظت.`;
+
+      $("#mIntro").textContent = intro;
+
+      // pick biases to show (3 cards)
+      const allBiases = current.biases;
+      let chosenBiases = [];
+
+      if (lvl.key === "low"){
+        chosenBiases = [allBiases[2], allBiases[0], allBiases[1]];
+      } else if (lvl.key === "mid"){
+        chosenBiases = [allBiases[0], allBiases[1], allBiases[2]];
+      } else {
+        // high: make it punchier
+        chosenBiases = [allBiases[1], allBiases[0], allBiases[2]];
+      }
+
+      // If user chose B, change narrative emphasis
+      const resistanceNote = !choseA
+        ? "أنت قاومت تأثير الأغلبية/التوصية. غالباً ركّزت على وصف الخيار أكثر من الشارات والأرقام."
+        : "أنت انسقت وراء مؤشرات مثل الشارات والأرقام وترتيب العرض.";
+
+      // Render bias cards
+      explainGridEl.innerHTML = "";
+      chosenBiases.forEach((b, idx) => {
+        const box = document.createElement("div");
+        box.className = "explain";
+
+        const extra = (idx === 0)
+          ? `<div class="label" style="margin-top:10px"><span class="pulse"></span> الأقوى تأثيراً بهذه التجربة</div>`
+          : "";
+
+        box.innerHTML = `
+          <h4>${b.title}</h4>
+          <p>${b.expl}</p>
+          ${extra}
+        `;
+        explainGridEl.appendChild(box);
+      });
+
+      // Technical "lie log"
+      const log = [
+        `اختيارك: ${choiceId}`,
+        `مستوى الخداع: ${lvl.label}`,
+        `ملاحظة سلوكية: ${resistanceNote}`,
+        "",
+        "تفاصيل التلاعب (المقصود):",
+        ...lieLog.map((x, i) => `- ${x}`)
+      ].join("\n");
+
+      $("#mTech").textContent = log;
+
+      openModal();
+    }
+
+    function newRound(){
+      current = pickScenario();
+      setTexts(current.title, current.subtitle);
+
+      const { nudge } = levelInfo();
+      const metrics = buildFakeMetrics(nudge);
+      renderMetrics(metrics);
+      renderChoices(current.options, nudge);
+    }
+
+    function toggleLevel(){
+      levelIndex = (levelIndex + 1) % levels.length;
+      const lvl = levelInfo();
+      btnToggle.textContent = `تبديل مستوى الخداع: ${lvl.label}`;
+      newRound();
+    }
+
+    function resetAll(){
+      levelIndex = 1;
+      btnToggle.textContent = `تبديل مستوى الخداع: ${levelInfo().label}`;
+      newRound();
+      closeModal();
+    }
+
+    // Events
+    btnNew.addEventListener("click", newRound);
+    btnToggle.addEventListener("click", toggleLevel);
+    btnReset.addEventListener("click", resetAll);
+    btnClose.addEventListener("click", closeModal);
+
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay) closeModal();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeModal();
+      if (e.key.toLowerCase() === "n") newRound();
+    });
+
+    // Start
+    newRound();
+  </script>
 </body>
 </html>
