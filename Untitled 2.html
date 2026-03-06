@@ -1,755 +1,253 @@
-<!doctype html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Website That Lies — تجربة التحيّزات</title>
-  <style>
-    :root{
-      --bg:#0b1020;
-      --panel:#111a33;
-      --panel2:#0f1730;
-      --text:#e8ecff;
-      --muted:#aab3d6;
-      --accent:#6ee7ff;
-      --good:#5cffb0;
-      --warn:#ffd36e;
-      --bad:#ff6e8a;
-      --border: rgba(255,255,255,.12);
-      --shadow: 0 18px 60px rgba(0,0,0,.45);
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
-      background: radial-gradient(1200px 800px at 20% 10%, rgba(110,231,255,.18), transparent 60%),
-                  radial-gradient(1000px 700px at 85% 20%, rgba(92,255,176,.14), transparent 55%),
-                  radial-gradient(900px 700px at 60% 90%, rgba(255,110,138,.12), transparent 55%),
-                  var(--bg);
-      color:var(--text);
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:24px;
-    }
-    .app{width:min(980px, 100%);}
-    .topbar{
-      display:flex; gap:12px; align-items:center; justify-content:space-between;
-      margin-bottom:14px;
-    }
-    .brand{
-      display:flex; gap:10px; align-items:center;
-      font-weight:700; letter-spacing:.2px;
-    }
-    .dot{
-      width:12px; height:12px; border-radius:50%;
-      background: linear-gradient(135deg, var(--accent), var(--good));
-      box-shadow: 0 0 20px rgba(110,231,255,.45);
-    }
-    .pill{
-      display:inline-flex; align-items:center; gap:8px;
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.04);
-      padding:8px 12px; border-radius:999px;
-      color:var(--muted); font-size:13px;
-    }
-    .pill b{color:var(--text)}
-    .card{
-      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      border:1px solid var(--border);
-      border-radius:18px;
-      box-shadow: var(--shadow);
-      overflow:hidden;
-    }
-    .content{padding:22px;}
-    h1{margin:0 0 8px 0; font-size:26px}
-    p{margin:0; color:var(--muted); line-height:1.7}
-    .grid{
-      margin-top:18px;
-      display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap:14px;
-    }
-    @media (max-width: 860px){
-      .grid{grid-template-columns:1fr}
-    }
-    .panel{
-      background: rgba(17,26,51,.75);
-      border:1px solid var(--border);
-      border-radius:16px;
-      padding:16px;
-    }
-    .metrics{
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap:10px;
-      margin-top:10px;
-    }
-    @media (max-width: 520px){
-      .metrics{grid-template-columns:1fr}
-    }
-    .metric{
-      background: rgba(15,23,48,.75);
-      border:1px solid var(--border);
-      border-radius:14px;
-      padding:12px;
-      min-height:84px;
-    }
-    .metric .k{font-size:12px; color:var(--muted)}
-    .metric .v{font-size:22px; font-weight:800; margin-top:6px}
-    .metric .tag{margin-top:6px; font-size:12px; color:var(--muted)}
-    .badge{
-      display:inline-flex; align-items:center; gap:8px;
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.03);
-      padding:8px 10px;
-      border-radius:999px;
-      font-size:13px;
-      color:var(--muted);
-    }
-    .badge .mark{
-      width:9px; height:9px; border-radius:50%;
-      background: var(--good);
-      box-shadow: 0 0 16px rgba(92,255,176,.35);
-    }
-    .choices{
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-      margin-top:14px;
-    }
-    .choice{
-      text-align:right;
-      cursor:pointer;
-      border-radius:14px;
-      padding:14px;
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.03);
-      transition: transform .12s ease, background .12s ease, border-color .12s ease;
-      position:relative;
-      overflow:hidden;
-    }
-    .choice:hover{
-      transform: translateY(-1px);
-      background: rgba(255,255,255,.05);
-      border-color: rgba(110,231,255,.25);
-    }
-    .choice h3{margin:0 0 6px 0; font-size:16px}
-    .choice small{color:var(--muted); line-height:1.55; display:block}
-    .choice .ribbon{
-      position:absolute;
-      top:10px; left:-40px;
-      transform: rotate(-14deg);
-      background: linear-gradient(135deg, rgba(110,231,255,.9), rgba(92,255,176,.9));
-      color:#061023;
-      font-weight:800;
-      padding:6px 48px;
-      font-size:12px;
-      box-shadow: 0 12px 30px rgba(0,0,0,.25);
-    }
+export default function AlSafiProductExplorer() {
+  const categories = [
+    {
+      name: "حلول الإنارة",
+      subcategories: ["إنارة داخلية", "إنارة خارجية"],
+      count: 420,
+    },
+    { name: "المراوح", subcategories: [], count: 185 },
+    { name: "مفرغات الهواء", subcategories: [], count: 96 },
+    { name: "أجهزة الحماية", subcategories: [], count: 142 },
+    { name: "قواطع الدورة", subcategories: [], count: 238 },
+    { name: "سوجات كهرباء", subcategories: [], count: 219 },
+  ];
 
-    .sideTitle{font-weight:800; margin:0 0 8px 0}
-    .hint{font-size:13px; color:var(--muted); line-height:1.6}
-    .btnRow{display:flex; gap:10px; margin-top:14px; flex-wrap:wrap}
-    .btn{
-      cursor:pointer;
-      border-radius:12px;
-      padding:10px 12px;
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.04);
-      color:var(--text);
-      font-weight:700;
-      transition: transform .12s ease, background .12s ease;
-      user-select:none;
-    }
-    .btn:hover{transform: translateY(-1px); background: rgba(255,255,255,.06)}
-    .btn.primary{
-      border-color: rgba(110,231,255,.35);
-      background: rgba(110,231,255,.10);
-    }
-    .btn.danger{
-      border-color: rgba(255,110,138,.35);
-      background: rgba(255,110,138,.10);
-    }
+  const focusProducts = [
+    {
+      name: "منتجات تحتاج دفع بيعي",
+      description: "منتجات راكدة أو بطيئة الحركة تحتاج تركيز يومي من فريق المبيعات.",
+      items: 34,
+    },
+    {
+      name: "فرص هذا الشهر",
+      description: "منتجات مناسبة للدفع الموسمي أو العروض الخاصة.",
+      items: 18,
+    },
+    {
+      name: "بدائل مقترحة",
+      description: "منتجات بديلة تُعرض عندما المنتج المطلوب غير متوفر أو أقل ربحية.",
+      items: 27,
+    },
+  ];
 
-    .footer{
-      padding:14px 22px;
-      border-top:1px solid var(--border);
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      color:var(--muted);
-      font-size:13px;
-      gap:12px;
-      flex-wrap:wrap;
-    }
-    .kbd{
-      border:1px solid var(--border);
-      border-bottom-color: rgba(255,255,255,.22);
-      background: rgba(0,0,0,.18);
-      padding:2px 8px;
-      border-radius:8px;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-      color:var(--text);
-      font-size:12px;
-    }
+  const sampleProducts = [
+    {
+      code: "LS-101",
+      name: "سبوت لايت داخلي",
+      category: "حلول الإنارة",
+      subcategory: "إنارة داخلية",
+      status: "متوفر",
+      image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=1200&auto=format&fit=crop",
+      shortDesc: "إنارة داخلية مناسبة للمنازل والمكاتب.",
+      fullDesc: "سبوت لايت داخلي بتصميم حديث، استهلاك منخفض للطاقة، مناسب للأسقف الجبسية والمساحات التجارية والسكنية.",
+    },
+    {
+      code: "FN-220",
+      name: "مروحة جدارية",
+      category: "المراوح",
+      subcategory: "—",
+      status: "متوفر",
+      image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1200&auto=format&fit=crop",
+      shortDesc: "مروحة قوية للاستخدام المنزلي والتجاري.",
+      fullDesc: "مروحة جدارية بقدرة تشغيل مستقرة، مناسبة للمحال والمكاتب، مع تصميم عملي وسهولة تثبيت.",
+    },
+    {
+      code: "PR-410",
+      name: "قاطع دورة رئيسي",
+      category: "قواطع الدورة",
+      subcategory: "—",
+      status: "قليل المخزون",
+      image: "https://images.unsplash.com/photo-1565608438257-fac3c27beb36?q=80&w=1200&auto=format&fit=crop",
+      shortDesc: "قاطع حماية للاستخدام الصناعي والتجاري.",
+      fullDesc: "قاطع دورة رئيسي بجودة عالية لتحمل الأحمال الكهربائية المختلفة، مناسب للتطبيقات الصناعية ولوحات التوزيع.",
+    },
+  ];
 
-    /* Modal */
-    .overlay{
-      position:fixed; inset:0;
-      background: rgba(0,0,0,.55);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      padding:20px;
-      z-index:999;
-    }
-    .overlay.show{display:flex}
-    .modal{
-      width:min(920px, 100%);
-      border-radius:18px;
-      border:1px solid var(--border);
-      background: linear-gradient(180deg, rgba(17,26,51,.92), rgba(15,23,48,.92));
-      box-shadow: var(--shadow);
-      overflow:hidden;
-    }
-    .modalHead{
-      padding:18px 18px 12px 18px;
-      border-bottom:1px solid var(--border);
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      gap:12px;
-    }
-    .modalHead h2{margin:0; font-size:18px}
-    .close{
-      cursor:pointer;
-      padding:8px 10px;
-      border-radius:12px;
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.04);
-      color:var(--text);
-      font-weight:800;
-    }
-    .modalBody{padding:18px}
-    .explainGrid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:12px;
-      margin-top:12px;
-    }
-    @media (max-width: 800px){
-      .explainGrid{grid-template-columns:1fr}
-    }
-    .explain{
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.03);
-      border-radius:16px;
-      padding:14px;
-    }
-    .explain h4{margin:0 0 8px 0}
-    .explain p{margin:0; color:var(--muted)}
-    .label{
-      display:inline-flex; align-items:center; gap:8px;
-      font-size:12px; color:var(--muted);
-      border:1px solid var(--border);
-      padding:6px 10px;
-      border-radius:999px;
-      background: rgba(255,255,255,.03);
-      margin-top:10px;
-    }
-    .pulse{
-      display:inline-block;
-      width:8px; height:8px; border-radius:50%;
-      background: var(--warn);
-      box-shadow: 0 0 0 rgba(255,211,110,.55);
-      animation: pulse 1.3s infinite;
-    }
-    @keyframes pulse{
-      0%{box-shadow:0 0 0 0 rgba(255,211,110,.35)}
-      70%{box-shadow:0 0 0 12px rgba(255,211,110,0)}
-      100%{box-shadow:0 0 0 0 rgba(255,211,110,0)}
-    }
-    .miniNote{
-      margin-top:12px;
-      font-size:13px;
-      color:var(--muted);
-      line-height:1.7;
-    }
-    .hr{height:1px; background: var(--border); margin:14px 0}
-    .mono{
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-      font-size:12px;
-      color: rgba(232,236,255,.9);
-      background: rgba(0,0,0,.22);
-      border:1px solid var(--border);
-      padding:10px;
-      border-radius:14px;
-      overflow:auto;
-    }
-  </style>
-</head>
-<body>
-  <div class="app">
-    <div class="topbar">
-      <div class="brand">
-        <span class="dot"></span>
-        <span>تجربة تحيّزات — Website That Lies</span>
-      </div>
-      <div class="pill"><span class="pulse"></span> وضع تجريبي: <b>واجهة “توجّهك”</b></div>
-    </div>
-
-    <div class="card">
-      <div class="content">
-        <h1 id="headline">اختبار سريع: أي خيار “أفضل”؟</h1>
-        <p id="sub">
-          راح أعرض عليك خيارين، اختَر اللي تشوفه مناسب.  
-          ملاحظة: النتائج تعتمد على “تحليل مستخدمين سابقين” ومؤشرات موثوقية.
-        </p>
-
-        <div class="grid">
-          <div class="panel">
-            <div class="badge"><span class="mark"></span> موثّق • مراجعات داخلية • بيانات مستخدمين</div>
-
-            <div class="metrics" id="metrics">
-              <!-- filled by JS -->
+  return (
+    <div className="min-h-screen bg-slate-50 text-slate-900" dir="rtl">
+      <div className="mx-auto max-w-7xl p-6 lg:p-10">
+        <header className="mb-8 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+          <div className="grid gap-6 lg:grid-cols-3 lg:items-center">
+            <div className="lg:col-span-2">
+              <p className="mb-2 text-sm font-medium text-slate-500">Al-Safi Sales Enablement</p>
+              <h1 className="text-3xl font-bold lg:text-4xl">منصة دليل منتجات الصافي</h1>
+              <p className="mt-3 max-w-3xl text-base leading-7 text-slate-600">
+                تطبيق داخلي يساعد موظف المبيعات يوصل بسرعة إلى المنتج المطلوب من بين أكثر من 1300 منتج،
+                مع تصنيف واضح، بحث ذكي، وصف كامل، صور، ومنطقة خاصة بالمنتجات التي تحتاج تركيز بيعي.
+              </p>
             </div>
-
-            <div class="choices" id="choices">
-              <!-- filled by JS -->
+            <div className="grid grid-cols-2 gap-3 rounded-3xl bg-slate-100 p-4">
+              <div className="rounded-2xl bg-white p-4 shadow-sm">
+                <p className="text-sm text-slate-500">إجمالي المنتجات</p>
+                <p className="mt-1 text-2xl font-bold">1300+</p>
+              </div>
+              <div className="rounded-2xl bg-white p-4 shadow-sm">
+                <p className="text-sm text-slate-500">عدد الفئات</p>
+                <p className="mt-1 text-2xl font-bold">6</p>
+              </div>
+              <div className="rounded-2xl bg-white p-4 shadow-sm">
+                <p className="text-sm text-slate-500">بحث سريع</p>
+                <p className="mt-1 text-2xl font-bold">ذكي</p>
+              </div>
+              <div className="rounded-2xl bg-white p-4 shadow-sm">
+                <p className="text-sm text-slate-500">واجهة تركيز</p>
+                <p className="mt-1 text-2xl font-bold">مفعلة</p>
+              </div>
             </div>
+          </div>
+        </header>
 
-            <div class="btnRow">
-              <div class="btn primary" id="btnNew">تجربة جديدة</div>
-              <div class="btn" id="btnToggle">تبديل مستوى الخداع: متوسط</div>
-              <div class="btn danger" id="btnReset">تصفير كلشي</div>
+        <section className="mb-8 grid gap-4 lg:grid-cols-4">
+          <div className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200 lg:col-span-3">
+            <div className="mb-4 flex flex-col gap-3 lg:flex-row">
+              <input
+                className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none"
+                placeholder="ابحث باسم المنتج، الكود، الفئة، أو حتى كلمة من الوصف..."
+              />
+              <button className="rounded-2xl bg-slate-900 px-5 py-3 text-sm font-medium text-white">
+                بحث ذكي
+              </button>
             </div>
-
-            <div class="miniNote">
-              تلميح: لا تدقق هواي… خليك عفوي. (هذا جزء من التجربة)
+            <div className="grid gap-3 md:grid-cols-3">
+              <select className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm">
+                <option>كل الفئات</option>
+                <option>حلول الإنارة</option>
+                <option>المراوح</option>
+                <option>مفرغات الهواء</option>
+                <option>أجهزة الحماية</option>
+                <option>قواطع الدورة</option>
+                <option>سوجات كهرباء</option>
+              </select>
+              <select className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm">
+                <option>كل التصنيفات الفرعية</option>
+                <option>إنارة داخلية</option>
+                <option>إنارة خارجية</option>
+              </select>
+              <select className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm">
+                <option>الحالة</option>
+                <option>متوفر</option>
+                <option>قليل المخزون</option>
+                <option>مستهدف للبيع</option>
+              </select>
             </div>
           </div>
 
-          <div class="panel">
-            <div class="sideTitle">شنو هدف الموقع؟</div>
-            <div class="hint">
-              هذا الموقع “يضلّلك” بشكل أخلاقي حتى يبيّن لك شلون:
-              <br/>• الكلمات + الألوان + الأرقام
-              <br/>• وترتيب الخيارات
-              <br/>تگدر تغيّر قرارك بدون ما تحس.
-            </div>
+          <div className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200">
+            <h2 className="text-lg font-semibold">اقتراح اسم الواجهة الثانية</h2>
+            <p className="mt-3 text-2xl font-bold">لوحة الدفع البيعي</p>
+            <p className="mt-2 text-sm leading-6 text-slate-600">
+              واجهة مخصصة للمنتجات التي تريد الشركة دفعها في السوق لأنها بطيئة الحركة أو لم تحقق مبيعات منذ مدة.
+            </p>
+          </div>
+        </section>
 
-            <div class="hr"></div>
+        <section className="mb-10">
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-2xl font-bold">الفئات الرئيسية</h2>
+            <p className="text-sm text-slate-500">تصنيف واضح لتسهيل الوصول</p>
+          </div>
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {categories.map((cat) => (
+              <div key={cat.name} className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <h3 className="text-xl font-semibold">{cat.name}</h3>
+                    <p className="mt-1 text-sm text-slate-500">{cat.count} منتج</p>
+                  </div>
+                  <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700">فئة</span>
+                </div>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {cat.subcategories.length ? (
+                    cat.subcategories.map((sub) => (
+                      <span key={sub} className="rounded-full bg-slate-100 px-3 py-1 text-sm text-slate-700">
+                        {sub}
+                      </span>
+                    ))
+                  ) : (
+                    <span className="rounded-full bg-slate-100 px-3 py-1 text-sm text-slate-500">بدون تقسيم فرعي</span>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
 
-            <div class="sideTitle">شنو راح يصير بعد ما تختار؟</div>
-            <div class="hint">
-              راح يظهر تفسير واضح:
-              <br/>• شنو التحيّز النفسي اللي اشتغل عندك
-              <br/>• شنو “الخدعة” اللي استخدمتها الواجهة
-              <br/>• شلون تتجنبها مستقبلاً
-            </div>
+        <section className="mb-10">
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-2xl font-bold">لوحة الدفع البيعي</h2>
+            <p className="text-sm text-slate-500">منتجات تحتاج انتباه الفريق</p>
+          </div>
+          <div className="grid gap-4 lg:grid-cols-3">
+            {focusProducts.map((box) => (
+              <div key={box.name} className="rounded-3xl bg-slate-900 p-5 text-white shadow-sm">
+                <p className="text-sm text-slate-300">{box.items} منتج</p>
+                <h3 className="mt-2 text-xl font-semibold">{box.name}</h3>
+                <p className="mt-3 text-sm leading-6 text-slate-300">{box.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
 
-            <div class="hr"></div>
+        <section>
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-2xl font-bold">نماذج عرض المنتجات</h2>
+            <p className="text-sm text-slate-500">الصورة + وصف مختصر + صفحة تفاصيل كاملة</p>
+          </div>
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+            {sampleProducts.map((product) => (
+              <div key={product.code} className="overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-slate-200">
+                <img src={product.image} alt={product.name} className="h-56 w-full object-cover" />
+                <div className="p-5">
+                  <div className="mb-3 flex items-center justify-between gap-3">
+                    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700">{product.code}</span>
+                    <span className="rounded-full bg-amber-50 px-3 py-1 text-xs font-medium text-amber-700">{product.status}</span>
+                  </div>
+                  <h3 className="text-xl font-semibold">{product.name}</h3>
+                  <p className="mt-2 text-sm text-slate-500">
+                    {product.category} / {product.subcategory}
+                  </p>
+                  <p className="mt-3 text-sm leading-6 text-slate-600">{product.shortDesc}</p>
+                  <div className="mt-5 rounded-2xl bg-slate-50 p-4">
+                    <p className="text-xs text-slate-500">الوصف الكامل عند الضغط</p>
+                    <p className="mt-2 text-sm leading-6 text-slate-700">{product.fullDesc}</p>
+                  </div>
+                  <button className="mt-4 w-full rounded-2xl bg-slate-900 px-4 py-3 text-sm font-medium text-white">
+                    عرض التفاصيل الكاملة
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
 
-            <div class="hint">
-              اختصارات:
-              <span class="kbd">N</span> تجربة جديدة
-              <span class="kbd">Esc</span> غلق التفسير
+        <section className="mt-10 grid gap-4 lg:grid-cols-2">
+          <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+            <h2 className="text-xl font-semibold">خصائص مهمة أقترح إضافتها</h2>
+            <div className="mt-4 grid gap-3 text-sm text-slate-600">
+              <div className="rounded-2xl bg-slate-50 p-4">بحث بالكود، الاسم، الكلمات المفتاحية، والاستخدام</div>
+              <div className="rounded-2xl bg-slate-50 p-4">فلترة حسب الفئة، التصنيف الفرعي، التوفر، والماركة</div>
+              <div className="rounded-2xl bg-slate-50 p-4">منتجات مشابهة وبدائل مقترحة داخل صفحة المنتج</div>
+              <div className="rounded-2xl bg-slate-50 p-4">إمكانية إضافة منتج إلى المفضلة للوصول السريع</div>
+              <div className="rounded-2xl bg-slate-50 p-4">وسوم مثل: جديد، مطلوب، بطيء الحركة، هامش ربح أعلى</div>
+              <div className="rounded-2xl bg-slate-50 p-4">زر مشاركة سريعة عبر واتساب أو نسخ معلومات المنتج</div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <div class="footer">
-        <div>ملاحظة: هذا Demo تعليمي. لا يستخدم بيانات حقيقية.</div>
-        <div>Version: <span class="kbd">1.0</span></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal -->
-  <div class="overlay" id="overlay" aria-hidden="true">
-    <div class="modal" role="dialog" aria-modal="true" aria-label="تفسير التحيّز">
-      <div class="modalHead">
-        <div>
-          <h2 id="mTitle">تحليل اختيارك</h2>
-          <div class="label"><span class="pulse"></span> كشف الخدعة + تفسير نفسي</div>
-        </div>
-        <button class="close" id="btnClose">إغلاق</button>
-      </div>
-      <div class="modalBody">
-        <p id="mIntro" style="margin:0;color:var(--muted);line-height:1.7"></p>
-
-        <div class="explainGrid" id="explainGrid">
-          <!-- filled by JS -->
-        </div>
-
-        <div class="hr"></div>
-
-        <div class="sideTitle">شنو اللي “كذبناه”؟</div>
-        <div class="mono" id="mTech"></div>
-
-        <div class="miniNote">
-          إذا تحب نخلي التجربة أقوى: نضيف مرحلة ثانية، ونخلي الموقع “يذكّرك” باختياراتك، ويكشف تحيزات إضافية.
-        </div>
+          <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+            <h2 className="text-xl font-semibold">البيانات التي يجب أن تظهر داخل صفحة المنتج</h2>
+            <div className="mt-4 grid gap-3 text-sm text-slate-600">
+              <div className="rounded-2xl bg-slate-50 p-4">اسم المنتج</div>
+              <div className="rounded-2xl bg-slate-50 p-4">كود المنتج / SKU</div>
+              <div className="rounded-2xl bg-slate-50 p-4">الفئة والتصنيف الفرعي</div>
+              <div className="rounded-2xl bg-slate-50 p-4">الوصف المختصر والوصف الكامل</div>
+              <div className="rounded-2xl bg-slate-50 p-4">الصورة أو أكثر من صورة</div>
+              <div className="rounded-2xl bg-slate-50 p-4">المواصفات الفنية الأساسية</div>
+              <div className="rounded-2xl bg-slate-50 p-4">حالة التوفر</div>
+              <div className="rounded-2xl bg-slate-50 p-4">منتجات مرتبطة أو بديلة</div>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
-  </div>
-
-  <script>
-    // ----------------------------
-    // Ethical "Website That Lies" Demo
-    // Web-only. No backend.
-    // ----------------------------
-
-    const $ = (s) => document.querySelector(s);
-
-    const overlay = $("#overlay");
-    const choicesEl = $("#choices");
-    const metricsEl = $("#metrics");
-    const explainGridEl = $("#explainGrid");
-
-    const btnNew = $("#btnNew");
-    const btnToggle = $("#btnToggle");
-    const btnReset = $("#btnReset");
-    const btnClose = $("#btnClose");
-
-    // 3 levels of manipulation intensity
-    const levels = [
-      { key:"low",   label:"منخفض",  nudge:0.25 },
-      { key:"mid",   label:"متوسط",  nudge:0.55 },
-      { key:"high",  label:"عالي",   nudge:0.85 }
-    ];
-    let levelIndex = 1; // default: mid
-
-    // Demo scenarios (you can add more)
-    const scenarios = [
-      {
-        id: "plan",
-        title: "أي خطة اشتراك تناسبك؟",
-        subtitle: "اختَر بسرعة بدون تفكير طويل.",
-        options: [
-          {
-            id:"A",
-            name:"الخطة A",
-            desc:"مزايا متوازنة، خيار منطقي للغالبية.",
-            baseValue: 0.50,
-          },
-          {
-            id:"B",
-            name:"الخطة B",
-            desc:"مزايا مشابهة تقريباً، بس بصياغة أقل إقناعاً.",
-            baseValue: 0.50,
-          }
-        ],
-        biases: [
-          {
-            key:"social_proof",
-            title:"Social Proof Bias (انحياز رأي الأغلبية)",
-            expl:"لما شفت إن “الأغلبية اختارت” خيار معيّن، دماغك اعتبره آمن وصحيح حتى لو ما عندك دليل فعلي."
-          },
-          {
-            key:"authority",
-            title:"Authority Bias (انحياز السلطة)",
-            expl:"استخدمنا لغة “موثّق/بيانات/مراجعات” حتى نخلق إحساس بالثقة، رغم إن الدليل مو حقيقي."
-          },
-          {
-            key:"framing",
-            title:"Framing Effect (تأثير الصياغة)",
-            expl:"نفس الفكرة لو تنكتب بطريقة مختلفة، قرارك يختلف. الصياغة تسحبك بدون ما تحس."
-          }
-        ]
-      },
-      {
-        id:"job",
-        title: "اختَر مرشّح للتوظيف (Demo)",
-        subtitle: "القرار هنا مو عن الشخص… بل عن تأثير العرض عليك.",
-        options: [
-          {
-            id:"A",
-            name:"مرشّح A",
-            desc:"سيرة مرتبة جداً + كلمات قوية.",
-            baseValue: 0.50,
-          },
-          {
-            id:"B",
-            name:"مرشّح B",
-            desc:"نفس المستوى تقريباً، لكن عرض أقل لمعان.",
-            baseValue: 0.50,
-          }
-        ],
-        biases: [
-          {
-            key:"halo",
-            title:"Halo Effect (تأثير الهالة)",
-            expl:"المظهر المرتب والكلمات القوية خلّتك تعطي تقييم أعلى للشخص حتى لو المعلومات متقاربة."
-          },
-          {
-            key:"default",
-            title:"Default Bias (انحياز الخيار الافتراضي)",
-            expl:"لما خيار يُقدّم كأنه “الموصى به”، الناس تميل تختاره لأنه أقل مقاومة ذهنيّة."
-          },
-          {
-            key:"scarcity",
-            title:"Scarcity Bias (انحياز الندرة)",
-            expl:"لما نوحي إن الفرصة محدودة، قرارك يصير أسرع وأكثر عاطفيّة."
-          }
-        ]
-      },
-      {
-        id:"news",
-        title: "أي عنوان خبر تصدّگ أكثر؟",
-        subtitle: "جرّب تشوف شنو اللي يخليك تصدّگ قبل المحتوى.",
-        options: [
-          {
-            id:"A",
-            name:"عنوان A",
-            desc:"يستخدم أرقام ونبرة ثقة.",
-            baseValue: 0.50,
-          },
-          {
-            id:"B",
-            name:"عنوان B",
-            desc:"نفس المعنى تقريباً، بس أقل “إبهار”.",
-            baseValue: 0.50,
-          }
-        ],
-        biases: [
-          {
-            key:"certainty",
-            title:"Certainty Illusion (وهم اليقين)",
-            expl:"لما العنوان يكون جازم ويستخدم أرقام، دماغك يتعامل وياه كأنه حقيقة."
-          },
-          {
-            key:"authority",
-            title:"Authority Bias (انحياز السلطة)",
-            expl:"شارات مثل “موثّق/مراجعات” حتى لو فارغة، ترفع الثقة لا إرادياً."
-          },
-          {
-            key:"framing",
-            title:"Framing Effect (تأثير الصياغة)",
-            expl:"نفس الخبر بصياغة مختلفة يعطي انطباع مختلف جداً."
-          }
-        ]
-      }
-    ];
-
-    // session state
-    let current = null;
-    let lieLog = []; // track manipulations we applied
-
-    function randInt(min, max){
-      return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-
-    function pickScenario(){
-      return scenarios[randInt(0, scenarios.length - 1)];
-    }
-
-    function setTexts(title, subtitle){
-      $("#headline").textContent = title;
-      $("#sub").textContent = subtitle;
-    }
-
-    function levelInfo(){
-      return levels[levelIndex];
-    }
-
-    function buildFakeMetrics(nudge){
-      // We "lie" by generating persuasive metrics that push towards option A.
-      // The nudge controls how strong the push is.
-      const pctA = Math.round(50 + (nudge * randInt(10, 28))); // 60..78 typically
-      const pctB = 100 - pctA;
-
-      const trust = Math.round(60 + (nudge * randInt(20, 35))); // 80..95
-      const speed = Math.round(120 - (nudge * randInt(20, 55))); // 65..100ms
-
-      return [
-        { k:"نسبة اختيار المستخدمين", v:`${pctA}%`, tag:`اختاروا الخيار A (و ${pctB}% B)` , kind:"social" },
-        { k:"مؤشر الموثوقية", v:`${trust}/100`, tag:"(مُصطنع للتأثير)" , kind:"authority" },
-        { k:"زمن اتخاذ القرار", v:`${speed}ms`, tag:"كلما أسرعنا… أكثر قابلية للتوجيه" , kind:"framing" }
-      ];
-    }
-
-    function renderMetrics(metrics){
-      metricsEl.innerHTML = "";
-      metrics.forEach(m => {
-        const el = document.createElement("div");
-        el.className = "metric";
-        el.innerHTML = `
-          <div class="k">${m.k}</div>
-          <div class="v">${m.v}</div>
-          <div class="tag">${m.tag}</div>
-        `;
-        metricsEl.appendChild(el);
-      });
-    }
-
-    function renderChoices(opts, nudge){
-      choicesEl.innerHTML = "";
-      lieLog = [];
-
-      // Manipulation tactics:
-      // - Give option A a "Recommended" ribbon depending on nudge
-      // - Make A first always (primacy)
-      // - Add microcopy to A and reduce for B
-      const makeRibbon = (nudge > 0.35);
-      const strongerMicrocopy = (nudge > 0.55);
-
-      // Always put A first (Primacy effect)
-      const ordered = [...opts].sort((a,b)=> (a.id==="A" ? -1 : 1));
-
-      ordered.forEach(opt => {
-        const c = document.createElement("div");
-        c.className = "choice";
-        c.dataset.id = opt.id;
-
-        const isA = opt.id === "A";
-
-        const micro = isA
-          ? (strongerMicrocopy ? "موصى بها • أفضل توازن • أقل مخاطرة" : "خيار متوازن ومريح")
-          : (strongerMicrocopy ? "بديل أقل شيوعاً" : "بديل آخر");
-
-        c.innerHTML = `
-          ${isA && makeRibbon ? `<div class="ribbon">Recommended</div>` : ``}
-          <h3>${opt.name}</h3>
-          <small>${opt.desc}</small>
-          <small style="margin-top:8px;opacity:${isA ? 1 : 0.88}">
-            <b style="color:var(--text)">${micro}</b>
-          </small>
-        `;
-
-        c.addEventListener("click", () => onChoose(opt.id, { makeRibbon, strongerMicrocopy, nudge }));
-        choicesEl.appendChild(c);
-      });
-
-      // Log "lies"
-      if (makeRibbon) lieLog.push("أضفنا شارة Recommended على الخيار A (Authority/Default).");
-      lieLog.push("رتّبنا الخيار A أولاً (Primacy Effect).");
-      if (strongerMicrocopy) lieLog.push("كتبنا Microcopy أقوى للخيار A وأضعف للخيار B (Framing).");
-      lieLog.push("عرضنا أرقام “نسبة اختيار المستخدمين” ومؤشر موثوقية بشكل مقصود (Social proof/Authority).");
-    }
-
-    function openModal(){
-      overlay.classList.add("show");
-      overlay.setAttribute("aria-hidden","false");
-    }
-
-    function closeModal(){
-      overlay.classList.remove("show");
-      overlay.setAttribute("aria-hidden","true");
-    }
-
-    function onChoose(choiceId, meta){
-      // Determine "likely biases" based on manipulation level and what the user chose.
-      const lvl = levelInfo();
-      const choseA = (choiceId === "A");
-
-      // Compose explanation
-      const title = choseA
-        ? "اخترت الخيار A — وهاي مو صدفة 😉"
-        : "اخترت الخيار B — هذا يدل إنك قاومت التوجيه 👀";
-
-      $("#mTitle").textContent = title;
-
-      const intro = choseA
-        ? `أغلب الناس تميل للخيار A هنا لأن الواجهة دفعتها بشكل ناعم. هذا مو “غباء”، هذا طبيعة دماغنا.`
-        : `مو كثيرين يختارون B بهالسيناريو، لأن الواجهة تحاول تدفعك نحو A. اختيارك يعني انتبهت/تحفظت.`;
-
-      $("#mIntro").textContent = intro;
-
-      // pick biases to show (3 cards)
-      const allBiases = current.biases;
-      let chosenBiases = [];
-
-      if (lvl.key === "low"){
-        chosenBiases = [allBiases[2], allBiases[0], allBiases[1]];
-      } else if (lvl.key === "mid"){
-        chosenBiases = [allBiases[0], allBiases[1], allBiases[2]];
-      } else {
-        // high: make it punchier
-        chosenBiases = [allBiases[1], allBiases[0], allBiases[2]];
-      }
-
-      // If user chose B, change narrative emphasis
-      const resistanceNote = !choseA
-        ? "أنت قاومت تأثير الأغلبية/التوصية. غالباً ركّزت على وصف الخيار أكثر من الشارات والأرقام."
-        : "أنت انسقت وراء مؤشرات مثل الشارات والأرقام وترتيب العرض.";
-
-      // Render bias cards
-      explainGridEl.innerHTML = "";
-      chosenBiases.forEach((b, idx) => {
-        const box = document.createElement("div");
-        box.className = "explain";
-
-        const extra = (idx === 0)
-          ? `<div class="label" style="margin-top:10px"><span class="pulse"></span> الأقوى تأثيراً بهذه التجربة</div>`
-          : "";
-
-        box.innerHTML = `
-          <h4>${b.title}</h4>
-          <p>${b.expl}</p>
-          ${extra}
-        `;
-        explainGridEl.appendChild(box);
-      });
-
-      // Technical "lie log"
-      const log = [
-        `اختيارك: ${choiceId}`,
-        `مستوى الخداع: ${lvl.label}`,
-        `ملاحظة سلوكية: ${resistanceNote}`,
-        "",
-        "تفاصيل التلاعب (المقصود):",
-        ...lieLog.map((x, i) => `- ${x}`)
-      ].join("\n");
-
-      $("#mTech").textContent = log;
-
-      openModal();
-    }
-
-    function newRound(){
-      current = pickScenario();
-      setTexts(current.title, current.subtitle);
-
-      const { nudge } = levelInfo();
-      const metrics = buildFakeMetrics(nudge);
-      renderMetrics(metrics);
-      renderChoices(current.options, nudge);
-    }
-
-    function toggleLevel(){
-      levelIndex = (levelIndex + 1) % levels.length;
-      const lvl = levelInfo();
-      btnToggle.textContent = `تبديل مستوى الخداع: ${lvl.label}`;
-      newRound();
-    }
-
-    function resetAll(){
-      levelIndex = 1;
-      btnToggle.textContent = `تبديل مستوى الخداع: ${levelInfo().label}`;
-      newRound();
-      closeModal();
-    }
-
-    // Events
-    btnNew.addEventListener("click", newRound);
-    btnToggle.addEventListener("click", toggleLevel);
-    btnReset.addEventListener("click", resetAll);
-    btnClose.addEventListener("click", closeModal);
-
-    overlay.addEventListener("click", (e) => {
-      if (e.target === overlay) closeModal();
-    });
-
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") closeModal();
-      if (e.key.toLowerCase() === "n") newRound();
-    });
-
-    // Start
-    newRound();
-  </script>
-</body>
-</html>
+  );
+}
